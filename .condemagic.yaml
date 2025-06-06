@@ -1,0 +1,6 @@
+workflows:
+  - name: 'Hello World'
+    steps:
+      - name: 'Hello World'
+        run: |
+          echo "Hello World"
