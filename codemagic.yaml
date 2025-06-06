@@ -1,6 +1,7 @@
 workflows:
-  - name: 'Hello World'
-    steps:
-      - name: 'Hello World'
-        run: |
-          echo "Hello World"
+  test1:
+    - name: 'Hello World'
+      steps:
+        - name: 'Hello World'
+          run: |
+            echo "Hello World"
