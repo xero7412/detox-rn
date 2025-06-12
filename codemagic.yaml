@@ -16,11 +16,6 @@ workflows:
           export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
       - name: Clean and prepare environment
         script: |
-          rm -rf android/build/generated/autolinking/autolinking.json
-          cd android
-          ./gradlew clean
-          cd ..
-          rm -rf node_modules
           npm install
       - name: Build Android APK
         script: |
