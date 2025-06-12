@@ -21,6 +21,16 @@ workflows:
       - name: Generate autolinking config
         script: |
           npx react-native config
+      - name: Check autolinking.json file
+        script: |
+          echo "Checking if autolinking.json exists..."
+          FILE_PATH="android/build/generated/autolinking/autolinking.json"
+          if [ -f "$FILE_PATH" ]; then
+            echo "✅ autolinking.json found:"
+            cat "$FILE_PATH"
+          else
+            echo "❌ autolinking.json NOT FOUND"
+          fi
       - name: Build Android APK
         script: |
           cd android
