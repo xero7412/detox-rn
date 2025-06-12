@@ -10,18 +10,21 @@ workflows:
       java: 17
       node: 16
     scripts:
-      - name: Print environment variables
+      - name: setup path for NDK
         script: |
-          echo "Keystore password: $KEYSTORE_PASSWORD"
-          echo "Alias: $KEY_ALIAS"
-          echo "Key password: $KEY_PASSWORD"
-      - name: Install dependencies
+          export ANDROID_HOME=/usr/local/share/android-sdk
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
+      - name: Clean and prepare environment
         script: |
+          rm -rf android/build/generated/autolinking/autolinking.json
+          cd android
+          ./gradlew clean
+          cd ..
+          rm -rf node_modules
           npm install
       - name: Build Android APK
         script: |
           cd android
-          ./gradlew clean
           ./gradlew assembleRelease
     artifacts:
       - android/app/build/outputs/**/*.apk
