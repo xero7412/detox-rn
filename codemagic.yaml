@@ -17,7 +17,7 @@ workflows:
       - name: Clean and install dependencies
         script: |
           rm -rf node_modules android/build
-          npm ci
+          npm install
       - name: Workaround for Autolinking (no native modules)
         script: |
           mkdir -p android/build/generated/autolinking
