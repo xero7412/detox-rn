@@ -10,16 +10,22 @@ workflows:
       java: 17
       node: 16
     scripts:
-      - name: setup path for NDK
+      - name: Setup Android SDK path
         script: |
           export ANDROID_HOME=/usr/local/share/android-sdk
           export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
-      - name: Clean and prepare environment
+      - name: Clean and install dependencies
         script: |
-          npm install
+          rm -rf node_modules android/build
+          npm ci
+      - name: Workaround for Autolinking (no native modules)
+        script: |
+          mkdir -p android/build/generated/autolinking
+          echo '{}' > android/build/generated/autolinking/autolinking.json
       - name: Build Android APK
         script: |
           cd android
+          ./gradlew clean
           ./gradlew assembleRelease
     artifacts:
       - android/app/build/outputs/**/*.apk
