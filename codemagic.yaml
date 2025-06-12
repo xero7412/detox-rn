@@ -1,8 +1,30 @@
 workflows:
-  sample-workflow:
-    name: Codemagic Sample Workflow
-    max_build_duration: 120
-    instance_type: mac_mini_m2
+  build-android-apk:
+    name: Build Android APK
+    max_build_duration: 45
+    environment:
+      vars:
+        KEYSTORE_PASSWORD: $KEYSTORE_PASSWORD
+        KEY_ALIAS: $KEY_ALIAS
+        KEY_PASSWORD: $KEY_PASSWORD
+      java: 17
+      node: 16
     scripts:
-      - name: Install dependencies via Yarn
-        script: echo "this is test"
+      - name: Print environment variables
+        script: |
+          echo "Keystore password: $KEYSTORE_PASSWORD"
+          echo "Alias: $KEY_ALIAS"
+          echo "Key password: $KEY_PASSWORD"
+      - name: Install dependencies
+        script: |
+          npm install
+      - name: Build Android APK
+        script: |
+          cd android
+          ./gradlew assembleRelease
+    artifacts:
+      - android/app/build/outputs/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - toshisharma7412@gmail.com
