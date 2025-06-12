@@ -18,23 +18,14 @@ workflows:
         script: |
           rm -rf node_modules android/build
           npm install
-      - name: Workaround for Autolinking (no native modules)
+      - name: Generate autolinking config
         script: |
-          mkdir -p android/build/generated/autolinking
-          cat <<EOF > android/build/generated/autolinking/autolinking.json
-          {
-            "dependencies": [],
-            "platforms": {},
-            "assets": [],
-            "hooks": {},
-            "params": {}
-          }
-          EOF
+          npx react-native config
       - name: Build Android APK
         script: |
           cd android
           ./gradlew clean
-          ./gradlew assembleRelease
+          ./gradlew assembleDebug
     artifacts:
       - android/app/build/outputs/**/*.apk
     publishing:
